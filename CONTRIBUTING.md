@@ -48,13 +48,17 @@ nexpath --version
 
 ## Common Checks
  
-Nexpath runs **no CI on pull requests** — your local run is the only gate.
+Pull requests and pushes to `main` run the **Pull Request Checks** workflow. It validates the
+CLI/server, Chrome and Firefox browser-extension build, root tests, and the separate VS Code
+extension package. The workflow is a safety net, not a substitute for reviewing the diff or
+testing host-specific behaviour manually.
  
 ```bash
 npm run build          # prebuild gates: content-template + selectability
 npm run typecheck      # core CLI + server
-npm run typecheck:ext  # required if you touched src/ext-browser/
-npm test               # vitest, whole tree
+npm run typecheck:ext  # browser extension types
+npm run build:ext      # bundle Chrome and Firefox extensions
+npm test               # root Vitest suite
 ```
  
 Three things that trip people up:
@@ -62,10 +66,11 @@ Three things that trip people up:
 - **Build gates** — a content template that is schema-invalid, missing its level-1 floor, or
   unreachable by a realistic prompt aborts the build. Fix the record; don't bypass the gate.
 - **`src/ext-vscode/`** — a separate package, excluded from the root checks. Run its own
-  `npm install && npm run typecheck && npm run test && npm run build`.
-- **`npm test` exits 1 on a public clone** — `dev-plan-table-integrity.test.ts` and
-  `hv1-env-supply.test.ts` read a private submodule and fail with `ENOENT`. Those two are the only
-  accepted failures; everything else red is your change.
+  `npm ci && npm run typecheck && npm test && npm run build`.
+- **Private planning documents** — when `lib/shared/submodules/nexpath-prompt-enhancement-submodule/`
+  is absent, Vitest explicitly reports that it is skipping the two planning-document suites that
+  require it. Check out the private submodule to run those suites locally; the rest of the root
+  test suite still runs.
  
 ## Pull Requests
  
