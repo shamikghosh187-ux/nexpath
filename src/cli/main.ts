@@ -36,6 +36,7 @@ import { registerCredentialStatusCommand } from './commands/credential-status.js
 import { registerWindsurfHookCommand } from './commands/windsurf-hook.js';
 import { registerCursorHookCommand } from './commands/cursor-hook.js';
 import { registerOptimizeCommand } from './commands/optimize.js';
+import { registerProofCommand } from './commands/proof.js';
 import { registerStatusCommand } from './commands/status.js';
 import { registerFeedbackTestCommand } from './commands/feedback-test.js';
 import { registerPromptEnhancementPopupHostCommand } from './commands/prompt-enhancement-popup-host.js';
@@ -166,6 +167,7 @@ export function createProgram(): Command {
   registerCursorHookCommand(program);
 
   registerOptimizeCommand(program);
+  registerProofCommand(program);
 
   // ── Status command ────────────────────────────────────────────────────────────
 
