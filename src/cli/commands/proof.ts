@@ -77,7 +77,7 @@ export function matchRequirementEvidence(requirement: string, diff: string): Req
 
 export function classifyTestOutput(output: string): TestEvidenceStatus {
   if (!output.trim()) return 'reported_unverified';
-  if (/\bFAIL(?:ED)?\b|^\s*not ok\b|\btests?\s+\d+\s+failed\b/im.test(output)) return 'failed';
+  if (/\bFAIL(?:ED)?\b|^\s*not ok\b|\btest files?\s+\d+\s+failed\b|\btests?\s+\d+\s+failed\b/im.test(output)) return 'failed';
   return 'reported_unverified';
 }
 
