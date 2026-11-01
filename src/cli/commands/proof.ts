@@ -59,7 +59,7 @@ export function matchRequirementEvidence(requirement: string, diff: string): Req
   const terms = extractTerms(requirement);
   const lowerDiff = diff.toLowerCase();
   const matchedTerms = terms.filter((term) => lowerDiff.includes(term));
-  const evidenceFiles = diff.split(/^diff --git .*$/m).slice(1)
+  const evidenceFiles = diff.split(/(?=^diff --git )/m).filter((section) => section.startsWith('diff --git '))
     .filter((section) => matchedTerms.some((term) => section.toLowerCase().includes(term)))
     .map((section) => {
       const match = section.match(/^\s*a\/([^\n]+) b\/([^\n]+)/);
